@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en,vi"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://fonts.googleapis.com/css?family=Nova+Mono" rel="stylesheet"/>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>
+
+</head>
+<body>
+
+<!-- Blog main content -->
+<div class="container">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">subjectCode</th>
+            <th scope="col">subjectNameVi</th>
+            <th scope="col">subjectNameEn</th>
+            <th scope="col">Department</th>
+            <th scope="col">Edit</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${subjects.empty}">
+            <td colspan="2"> No Subjects Available</td>
+        </tr>
+        <tr th:each="subject : ${subjects}">
+            <td><span th:text="${subject.subjectCode}"> </span></td>
+            <td><span th:text="${subject.subjectNameVi}"> </span></td>
+            <td><span th:text="${subject.subjectNameEn}"> </span></td>
+            <td><span th:text="${subject.department}"> </span></td>
+            <td><span>Edit </span></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

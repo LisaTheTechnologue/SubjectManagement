@@ -5,6 +5,7 @@ import com.ngantcb.SubjectManagement.repo.SubjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -24,6 +25,12 @@ public class SubjectServiceImpl implements SubjectService {
         Optional<Subject> response = subjectRepository.findById(id);
         Subject getResponse = response.get();
         return getResponse;
+    }
+
+    @Override
+    public List<Subject> getAll() {
+        List<Subject> response = subjectRepository.findAll();
+        return response;
     }
 
     @Override
