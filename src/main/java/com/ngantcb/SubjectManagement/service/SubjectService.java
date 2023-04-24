@@ -7,6 +7,7 @@ import java.util.List;
 public interface SubjectService {
     public Subject save(Subject student);
     public Subject get(Long id);
+    public List<Subject> getByKeyword(String keyword);
     public List<Subject> getAll();
     public void delete(Subject student);
 }

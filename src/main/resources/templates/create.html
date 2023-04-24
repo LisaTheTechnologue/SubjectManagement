@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form action="#" th:action="@{/save}"
+      th:object="${subject}" method="POST">
+  <fieldset>
+    <div class="row">
+      <div class="col-sm form-group">
+        <label for="campusDDL">Campus</label>
+        <select class="form-control" id="campusDDL" th:field="*{campus}" disabled>
+          <option value="Campus 1">Campus 1</option>
+        </select>
+      </div>
+      <div class="col-sm form-group">
+        <label for="departmentDDL">Department</label>
+        <select class="form-control" id="departmentDDL" th:field="*{department}">
+          <option value="0">------ Select a department ------</option>
+          <option th:each="department : ${departments}" th:value="${department}" th:text="${department}"></option>
+        </select>
+      </div>
+      <div class="col-sm form-group">
+        <label for="subjectCodeInput">Subject Code</label>
+        <input type="text" class="form-control"
+               id="subjectCodeInput" required
+               th:field="*{subjectCode}"/>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm form-group">
+        <label for="subjectNameViInput">Subject Name (Vietnamese)</label>
+        <input type="text" class="form-control"
+               id="subjectNameViInput" required
+               th:field="*{subjectNameVi}"/>
+      </div>
+      <div class="col-sm form-group">
+        <label for="subjectNameEnInput">Subject Name (English)</label>
+        <select class="form-control"
+                id="subjectNameEnInput"
+                th:field="*{subjectNameEn}"
+                name="subjectNameEn">
+          <option th:each="genderOpt : ${T(com.ngantcb.EmployeeManagement.entity.enums.GenderEnum).values()}"
+                  th:value="${genderOpt}" th:text="${genderOpt}"></option>
+        </select>
+      </div>
+      <div class="col-sm form-group">
+        <label for="shortNameInput">Short Name</label>
+        <input type="text" th:field="*{shortName}" id="shortNameInput" class="form-control"/>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm form-group">
+        <label for="gradeInput">Grade</label>
+        <input type="text" class="form-control"
+               id="gradeInput" required
+               th:field="*{grade}"/>
+      </div>
+      <div class="col-sm form-group">
+        <label for="termInput">Term</label>
+        <select class="form-control"
+                id="termInput"
+                th:field="*{term}"
+                name="term">
+          <option th:each="genderOpt : ${T(com.ngantcb.EmployeeManagement.entity.enums.GenderEnum).values()}"
+                  th:value="${genderOpt}" th:text="${genderOpt}"></option>
+        </select>
+      </div>
+      <div class="col-sm form-group">
+          <input type="checkbox" th:field="*{isExtra}" th:checked="${flag}" class="form-control" id="isExtraInput"/>
+          <label for="isExtraInput">isExtra</label>
+      </div>
+    </div>
+  </fieldset>
+</form>
+</body>
+</html>

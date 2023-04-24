@@ -7,6 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
 public class SubjectController {
 
@@ -14,8 +17,12 @@ public class SubjectController {
     private SubjectService service;
 
     @GetMapping(value = {"/", "/index", "/home"})
-    public String index(Model model) {
-        model.addAttribute("subjects", service.getAll());
+    public String index(Model model, String keyword) {
+        List<Subject> subjects = service.getAll();
+        model.addAttribute("options", subjects);
+        if(keyword!=null) {
+            model.addAttribute("subjects", service.getByKeyword(keyword));
+        } else model.addAttribute("subjects", subjects);
         return "index";
     }
 

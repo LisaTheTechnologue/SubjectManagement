@@ -28,6 +28,11 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public List<Subject> getByKeyword(String keyword) {
+        return subjectRepository.findByKeyword(keyword);
+    }
+
+    @Override
     public List<Subject> getAll() {
         List<Subject> response = subjectRepository.findAll();
         return response;
