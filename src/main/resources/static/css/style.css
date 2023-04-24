@@ -3,6 +3,10 @@
     text-align: center;
 }
 
-.container {
+.main-container {
     margin: 25px 50px; //vertical and horizontal
+}
+.form-group.required .control-label:after {
+  content:"*";
+  color:red;
 }

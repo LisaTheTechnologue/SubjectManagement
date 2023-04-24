@@ -9,5 +9,5 @@ public interface SubjectService {
     public Subject get(Long id);
     public List<Subject> getByKeyword(String keyword);
     public List<Subject> getAll();
-    public void delete(Subject student);
+    public void delete(Long id);
 }
