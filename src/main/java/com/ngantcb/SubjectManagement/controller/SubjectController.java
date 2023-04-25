@@ -30,8 +30,9 @@ public class SubjectController {
         model.addAttribute("subjects", service.getAll());
         return "index";
     }
+
     @GetMapping("/search")
-    public String findByKeyword(Model model, @RequestParam("keyword") String keyword) {
+    public String findByKeyword(Model model, @RequestParam(value = "keyword", required = false) String keyword) {
         List<Department> departments = dService.getAll();
         model.addAttribute("options", departments);
         if (keyword != null) {
@@ -39,11 +40,12 @@ public class SubjectController {
         } else model.addAttribute("subjects", service.getAll());
         return "index";
     }
+
     @GetMapping("/filter")
-    public String findByDepartment(Model model, @RequestParam("department") Long departmentId) {
+    public String findByDepartment(Model model, @RequestParam(value = "department", required = false) Long departmentId) {
         List<Department> departments = dService.getAll();
         model.addAttribute("options", departments);
-        if (departmentId != null) {
+        if (departmentId != null && departmentId != 0) {
             model.addAttribute("subjects", service.getByDepartmentId(departmentId));
         } else model.addAttribute("subjects", service.getAll());
         return "index";
@@ -64,33 +66,38 @@ public class SubjectController {
         try {
             Subject subjectDb = service.save(subject);
             // check if subject code existed in database
-            if (subjectDb==null) {
-                model.addAttribute("error", "existed");
+            if (subjectDb == null) {
+                model.addAttribute("msg", "existed");
+                // form
                 List<Department> departments = dService.getAll();
                 model.addAttribute("options", departments);
                 model.addAttribute("subject", new Subject());
                 return "create";
-            }
+            } else model.addAttribute("msg", "createSuccess");
         } catch (Exception ex) {
             // if subject cannot be saved
-            model.addAttribute("error", "failed");
-            List<Department> departments = dService.getAll();
-            model.addAttribute("options", departments);
-            model.addAttribute("subject", new Subject());
-            return "create";
+            model.addAttribute("msg", "createFailed");
         }
-        return "redirect:/";
+        List<Department> departments = dService.getAll();
+        model.addAttribute("options", departments);
+        model.addAttribute("subjects", service.getAll());
+
+        return "index";
     }
 
     @GetMapping("/delete/{id}")
     public String deleteSubject(@PathVariable(value = "id") Long id, Model model) {
         try {
             service.delete(id);
+            model.addAttribute("msg", "deleteSuccess");
         } catch (Exception ex) {
-            model.addAttribute("error", "failed");
-            model.addAttribute("employees", service.getAll());
+            model.addAttribute("msg", "deleteFailed");
+        } finally {
+            List<Department> departments = dService.getAll();
+            model.addAttribute("options", departments);
+
+            model.addAttribute("subjects", service.getAll());
             return "index";
         }
-        return "redirect:/";
     }
 }

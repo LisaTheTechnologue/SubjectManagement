@@ -17,12 +17,7 @@
     <h1>Employee</h1>
 </div>
 <div class="container">
-    <th:block th:switch="${error}">
-        <div th:case="'failed'" class="alert alert-danger" role="alert"> Create fail!!!
-            <button aria-label="Close" class="close" data-dismiss="alert" type="button">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
+    <th:block th:switch="${msg}">
         <div th:case="'existed'" class="alert alert-danger" role="alert"> Subject code is existing please input Subject code again
             <button aria-label="Close" class="close" data-dismiss="alert" type="button">
                 <span aria-hidden="true">&times;</span>
@@ -34,20 +29,20 @@
         <fieldset>
             <div class="row">
                 <div class="col-sm form-group ">
-                    <label for="campusDDL">Campus</label>
+                    <label class="control-label" for="campusDDL">Campus</label>
                     <select class="form-control" id="campusDDL" th:field="*{campus}" name="campus" disabled>
                         <option th:value="'Campus 1'" >Campus 1</option>
                     </select>
                 </div>
                 <div class="col-sm form-group required">
-                    <label for="departmentDDL">Department</label>
+                    <label class="control-label" for="departmentDDL">Department</label>
                     <select class="form-control" id="departmentDDL" th:field="*{department}">
                         <option th:each="option : ${options}" th:value="${option.id}"
                                 th:text="${option.department}"></option>
                     </select>
                 </div>
                 <div class="col-sm form-group required">
-                    <label for="subjectCodeInput">Subject Code</label>
+                    <label class="control-label" for="subjectCodeInput">Subject Code</label>
                     <input type="text" class="form-control"
                            id="subjectCodeInput" required
                            th:field="*{subjectCode}"/>
@@ -55,30 +50,30 @@
             </div>
             <div class="row">
                 <div class="col-sm form-group required">
-                    <label for="subjectNameViInput">Subject Name (Vietnamese)</label>
+                    <label class="control-label" for="subjectNameViInput">Subject Name (Vietnamese)</label>
                     <input type="text" class="form-control"
                            id="subjectNameViInput" required
                            th:field="*{subjectNameVi}"/>
                 </div>
                 <div class="col-sm form-group required">
-                    <label for="subjectNameEnInput">Subject Name (English)</label>
+                    <label class="control-label" for="subjectNameEnInput">Subject Name (English)</label>
                     <input type="text" th:field="*{subjectNameEn}" required
                            id="subjectNameEnInput" class="form-control"/>
                 </div>
                 <div class="col-sm form-group required">
-                    <label for="shortNameInput">Short Name</label>
+                    <label class="control-label" for="shortNameInput">Short Name</label>
                     <input type="text" th:field="*{shortName}" required id="shortNameInput" class="form-control"/>
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm form-group">
-                    <label for="gradeInput">Grade</label>
+                    <label class="control-label" for="gradeInput">Grade</label>
                     <input type="number" class="form-control"
                            id="gradeInput" required min="1"
                            th:field="*{grade}"/>
                 </div>
                 <div class="col-sm form-group">
-                    <label for="termInput">Term</label>
+                    <label class="control-label" for="termInput">Term</label>
                     <input type="number" class="form-control"
                            id="termInput" required min="1"
                            th:field="*{term}"/>
@@ -88,7 +83,7 @@
                         <input class="form-check-input" type="checkbox"
                                id="isExtraCb"
                                th:field="*{isExtra}">
-                        <label class="form-check-label">Is Extra</label>
+                        <label class="control-label form-check-label">Is Extra</label>
                     </div>
                 </div>
             </div>

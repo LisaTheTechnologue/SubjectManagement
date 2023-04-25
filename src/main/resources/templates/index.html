@@ -19,8 +19,18 @@
 </div>
 <div class="main-container">
     <div class="container">
-        <th:block th:if="${error=='failed'}">
-            <div class="alert alert-danger" role="alert"> Delete fail!!!
+        <th:block th:switch="${msg}">
+<!--            <div th:case="'deleteFailed'" class="alert alert-danger" role="alert"> Delete fail!!!-->
+<!--                <button aria-label="Close" class="close" data-dismiss="alert" type="button">-->
+<!--                    <span aria-hidden="true">&times;</span>-->
+<!--                </button>-->
+<!--            </div>-->
+            <div th:case="'createSuccess'" class="alert alert-success" role="alert"> Create success!!!
+                <button aria-label="Close" class="close" data-dismiss="alert" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div th:case="'createFailed'" class="alert alert-danger" role="alert"> Create fail!!!
                 <button aria-label="Close" class="close" data-dismiss="alert" type="button">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -34,7 +44,8 @@
             <div class="col-6">
                     <select class="form-control col-8" id="subjectDDL" th:field="*{options}"
                             th:onchange="'window.location.href = \'' + @{/filter} + '?department=\' + this.value '">
-                        <option value="">------ All departments ------</option>
+                        <option th:value="-1" >---------- Select departments --------------</option>
+                        <option th:value="0">All departments</option>
                         <option th:each="option : ${options}" th:value="${option.id}"
                                 th:text="${option.department}"></option>
                     </select>
