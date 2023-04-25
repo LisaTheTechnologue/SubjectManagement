@@ -16,6 +16,8 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     public Subject save(Subject subject) {
+        Subject subjectDB = subjectRepository.checkIfSubjectCodeExists(subject.getSubjectCode());
+        if (subjectDB != null) return null;
         Subject createResponse = subjectRepository.save(subject);
         return createResponse;
     }
@@ -30,6 +32,11 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     public List<Subject> getByKeyword(String keyword) {
         return subjectRepository.findByKeyword(keyword);
+    }
+
+    @Override
+    public List<Subject> getByDepartmentId(Long departmentId) {
+        return subjectRepository.findByDepartmentId(departmentId);
     }
 
     @Override

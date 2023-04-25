@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -21,15 +22,30 @@ public class SubjectController {
     @Autowired
     private DepartmentService dService;
 
-    @GetMapping(value = {"/", "/index", "/home"})
-    public String index(Model model, String keyword) {
+    @GetMapping("/")
+    public String index(Model model, String keyword, String department) {
         List<Department> departments = dService.getAll();
         model.addAttribute("options", departments);
 
-        List<Subject> subjects = service.getAll();
+        model.addAttribute("subjects", service.getAll());
+        return "index";
+    }
+    @GetMapping("/search")
+    public String findByKeyword(Model model, @RequestParam("keyword") String keyword) {
+        List<Department> departments = dService.getAll();
+        model.addAttribute("options", departments);
         if (keyword != null) {
             model.addAttribute("subjects", service.getByKeyword(keyword));
-        } else model.addAttribute("subjects", subjects);
+        } else model.addAttribute("subjects", service.getAll());
+        return "index";
+    }
+    @GetMapping("/filter")
+    public String findByDepartment(Model model, @RequestParam("department") Long departmentId) {
+        List<Department> departments = dService.getAll();
+        model.addAttribute("options", departments);
+        if (departmentId != null) {
+            model.addAttribute("subjects", service.getByDepartmentId(departmentId));
+        } else model.addAttribute("subjects", service.getAll());
         return "index";
     }
 
@@ -43,12 +59,20 @@ public class SubjectController {
     }
 
     @PostMapping("/create")
-    public String addSubject(@ModelAttribute("subject") @Valid Subject subject,
+    public String addSubject(@Valid Subject subject,
                              Model model) {
-
         try {
-            service.save(subject);
+            Subject subjectDb = service.save(subject);
+            // check if subject code existed in database
+            if (subjectDb==null) {
+                model.addAttribute("error", "existed");
+                List<Department> departments = dService.getAll();
+                model.addAttribute("options", departments);
+                model.addAttribute("subject", new Subject());
+                return "create";
+            }
         } catch (Exception ex) {
+            // if subject cannot be saved
             model.addAttribute("error", "failed");
             List<Department> departments = dService.getAll();
             model.addAttribute("options", departments);
@@ -56,12 +80,6 @@ public class SubjectController {
             return "create";
         }
         return "redirect:/";
-    }
-
-    @GetMapping("/{id}")
-    public Subject getStudent(@PathVariable Long id) {
-        Subject getReponse = service.get(id);
-        return getReponse;
     }
 
     @GetMapping("/delete/{id}")

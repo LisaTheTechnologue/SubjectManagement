@@ -30,10 +30,11 @@ public class Subject {
 
     @ManyToOne
     @JoinColumn(name="DEPARTMENT_ID", nullable=false)
+    @NotNull(message = "Department cannot be null")
     private Department department;
 
     @Column(name = "CAMPUS")
-    private String campus;
+    private String campus="Campus 1";
 
     @Column(name = "GRADE")
     @Min(value = 0, message = "Grade must be number > 0")
@@ -47,6 +48,7 @@ public class Subject {
     @NotEmpty(message = "Short name must be not null")
     private String shortName;
 
-    @Column(name = "IS_EXTRA")
-    private int isExtra;
+    @Column(name = "IS_EXTRA", columnDefinition = "TINYINT", length = 1)
+    private Boolean isExtra;
+
 }

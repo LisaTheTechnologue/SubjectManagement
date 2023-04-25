@@ -18,37 +18,41 @@
     <h1>Subject</h1>
 </div>
 <div class="main-container">
-    <th:block th:if="${error=='failed'}">
-        <div class="alert alert-danger" role="alert"> Delete fail!!!
-            <button aria-label="Close" class="close" data-dismiss="alert" type="button">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    </th:block>
-    <h3>Subject List</h3>
-    <div class="text-right">
-        <a th:href="@{/create}" class="btn btn-success mb-3">
-            <i class="fa fa-plus" aria-hidden="true"></i> Add new</a></div>
-    <div class="row">
-        <div class="col-6">
-            <select class="form-control col-8" id="subjectDDL" th:field="*{options}">
-                <option value="0">------ All departments ------</option>
-                <option th:each="option : ${options}" th:value="${option.id}" th:text="${option.department}"></option>
-            </select>
-        </div>
-        <div class="col text-right">
-            <form th:action="@{/}" method="get">
-                <div class="input-group mb-3">
-                    <input id="txtSearch" class="form-control" type="text" name="keyword"
-                           placeholder="Enter a subject name or subject code"
-                           aria-label="Enter a subject name or subject code"
-                           aria-describedby="button-search"/>
-                    <div class="input-group-append">
-                        <button type="submit" class="btn btn-outline-secondary" id="button-search"><i
-                                class="fa fa-search" aria-hidden="true"></i></button>
+    <div class="container">
+        <th:block th:if="${error=='failed'}">
+            <div class="alert alert-danger" role="alert"> Delete fail!!!
+                <button aria-label="Close" class="close" data-dismiss="alert" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </th:block>
+        <h3>Subject List</h3>
+        <div class="text-right">
+            <a th:href="@{/create}" class="btn btn-success mb-3">
+                <i class="fa fa-plus" aria-hidden="true"></i> Add new</a></div>
+        <div class="row">
+            <div class="col-6">
+                    <select class="form-control col-8" id="subjectDDL" th:field="*{options}"
+                            th:onchange="'window.location.href = \'' + @{/filter} + '?department=\' + this.value '">
+                        <option value="">------ All departments ------</option>
+                        <option th:each="option : ${options}" th:value="${option.id}"
+                                th:text="${option.department}"></option>
+                    </select>
+            </div>
+            <div class="col text-right">
+                <form th:action="@{/search}" method="get">
+                    <div class="input-group mb-3">
+                        <input id="txtSearch" class="form-control" type="text" name="keyword"
+                               placeholder="Enter a subject name or subject code"
+                               aria-label="Enter a subject name or subject code"
+                               aria-describedby="button-search"/>
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-outline-secondary" id="button-search"><i
+                                    class="fa fa-search" aria-hidden="true"></i></button>
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
     <div class="container">
@@ -57,8 +61,13 @@
             <tr>
                 <th scope="col">Subject Code</th>
                 <th scope="col">Subject Name Vi</th>
+                <th scope="col">Subject Name En</th>
+                <th scope="col">Short Name</th>
                 <th scope="col">Department</th>
-                <th scope="col">Edit</th>
+                <th scope="col">Campus</th>
+                <th scope="col">Grade</th>
+                <th scope="col">Term</th>
+                <th scope="col">Is Extra</th>
             </tr>
             </thead>
             <tbody>
@@ -68,8 +77,13 @@
             <tr th:each="subject : ${subjects}">
                 <td><span th:text="${subject.subjectCode}"> </span></td>
                 <td><span th:text="${subject.subjectNameVi}"> </span></td>
-                <td><span th:text="${subject.department}"> </span></td>
-                <td><span>Edit </span></td>
+                <td><span th:text="${subject.subjectNameEn}"> </span></td>
+                <td><span th:text="${subject.shortName}"> </span></td>
+                <td><span th:text="${subject.department.department}"> </span></td>
+                <td><span th:text="${subject.campus}"> </span></td>
+                <td><span th:text="${subject.grade}"> </span></td>
+                <td><span th:text="${subject.term}"> </span></td>
+                <td><span th:text="${subject.isExtra} ? 'YES' : 'NO'"> </span></td>
             </tr>
             </tbody>
         </table>

@@ -17,8 +17,13 @@
     <h1>Employee</h1>
 </div>
 <div class="container">
-    <th:block th:if="${error=='failed'}">
-        <div class="alert alert-danger" role="alert"> Create fail!!!
+    <th:block th:switch="${error}">
+        <div th:case="'failed'" class="alert alert-danger" role="alert"> Create fail!!!
+            <button aria-label="Close" class="close" data-dismiss="alert" type="button">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div th:case="'existed'" class="alert alert-danger" role="alert"> Subject code is existing please input Subject code again
             <button aria-label="Close" class="close" data-dismiss="alert" type="button">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -30,14 +35,13 @@
             <div class="row">
                 <div class="col-sm form-group ">
                     <label for="campusDDL">Campus</label>
-                    <select class="form-control" id="campusDDL" th:field="*{campus}" disabled>
-                        <option value="Campus 1">Campus 1</option>
+                    <select class="form-control" id="campusDDL" th:field="*{campus}" name="campus" disabled>
+                        <option th:value="'Campus 1'" >Campus 1</option>
                     </select>
                 </div>
-                <div class="col-sm form-group">
+                <div class="col-sm form-group required">
                     <label for="departmentDDL">Department</label>
                     <select class="form-control" id="departmentDDL" th:field="*{department}">
-                        <option value="0">------ Select a department ------</option>
                         <option th:each="option : ${options}" th:value="${option.id}"
                                 th:text="${option.department}"></option>
                     </select>
@@ -63,30 +67,35 @@
                 </div>
                 <div class="col-sm form-group required">
                     <label for="shortNameInput">Short Name</label>
-                    <input type="text" th:field="*{shortName}" id="shortNameInput" class="form-control"/>
+                    <input type="text" th:field="*{shortName}" required id="shortNameInput" class="form-control"/>
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm form-group">
                     <label for="gradeInput">Grade</label>
                     <input type="number" class="form-control"
-                           id="gradeInput" required min="0"
+                           id="gradeInput" required min="1"
                            th:field="*{grade}"/>
                 </div>
                 <div class="col-sm form-group">
                     <label for="termInput">Term</label>
                     <input type="number" class="form-control"
-                           id="termInput" required min="0"
+                           id="termInput" required min="1"
                            th:field="*{term}"/>
                 </div>
                 <div class="col-sm form-group">
-                    <input type="checkbox" th:field="*{isExtra}" th:checked="${flag}" class="form-control"
-                           id="isExtraInput" value="1"/>
-                    <label>Is Extra</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox"
+                               id="isExtraCb"
+                               th:field="*{isExtra}">
+                        <label class="form-check-label">Is Extra</label>
+                    </div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary btn-sm mb-3">Create</button>
-            <a th:href="@{/}" class="btn btn-danger btn-sm mb-3">Cancel</a>
+            <div class="text-right">
+                <button type="submit" class="btn btn-primary">Create</button>
+                <a th:href="@{/}" class="btn btn-outline-secondary">Cancel</a>
+            </div>
         </fieldset>
     </form>
 </div>
